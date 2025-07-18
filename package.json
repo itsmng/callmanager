@@ -1,0 +1,21 @@
+{
+  "name": "callmanager",
+  "version": "1.0.0",
+  "description": "A template for creating a new plugin for the [ITSM Core](https://github.com/OTRS/itsm).",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itsmng/callmanager.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/itsmng/callmanager/issues"
+  },
+  "homepage": "https://github.com/itsmng/callmanager#readme",
+  "dependencies": {
+    "htm": "^3.1.1",
+    "preact": "^10.26.9"
+  }
+}

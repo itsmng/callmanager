@@ -1,6 +1,11 @@
 <?php
 
-class PluginSkeletonConfig extends CommonDBTM {
+namespace Itsmng\Plugin\CallManager;
+
+use CommonDBTM;
+use Plugin;
+
+class PluginCallManagerConfig extends CommonDBTM {
 
     static function install() {
         global $DB;
@@ -80,6 +85,7 @@ SQL;
      * @return void
      */
     public function showConfigForm() {
-        echo "SKELETON CONFIG FORM";
+        echo "<div id='plugin_callmanager_config_form'></div>";
+        echo "<script type='module' src='" . Plugin::getWebDir('callmanager') . "/js/config.js'></script>";
     }
 }

@@ -1,6 +1,15 @@
 <?php
 
-class PluginSkeletonProfile extends CommonDBTM {
+namespace Itsmng\Plugin\CallManager;
+
+use CommonDBTM;
+use CommonGLPI;
+use Session;
+use Profile;
+use ProfileRight;
+use Html;
+
+class PluginCallManagerProfile extends CommonDBTM {
 
     static function install() {
         global $DB;
@@ -45,7 +54,7 @@ class PluginSkeletonProfile extends CommonDBTM {
 	 * @return boolean
 	 */
 	static function canCreate() {
-		if (isset($_SESSION["profile"])) return ($_SESSION["profile"]['pluginskeleton'] == 'w');
+		if (isset($_SESSION["profile"])) return ($_SESSION["profile"]['plugin_callmanager'] == 'w');
 		return false;
 	}
 
@@ -55,7 +64,7 @@ class PluginSkeletonProfile extends CommonDBTM {
 	 * @return boolean
 	 */
 	static function canView() {
-		if (isset($_SESSION["profile"])) return ($_SESSION["profile"]['pluginskeleton'] == 'w' || $_SESSION["profile"]['pluginskeleton'] == 'r');
+		if (isset($_SESSION["profile"])) return ($_SESSION["profile"]['plugin_callmanager'] == 'w' || $_SESSION["profile"]['plugin_callmanager'] == 'r');
 		return false;
 	}
 
@@ -102,9 +111,9 @@ class PluginSkeletonProfile extends CommonDBTM {
 		$prof = new self();
 
 		if ($prof->getFromDB($_SESSION['glpiactiveprofile']['id'])) {
-			$_SESSION["glpi_plugin_skeleton_profile"] = $prof->fields;
+			$_SESSION["glpi_plugin_callmanager_profile"] = $prof->fields;
 		} else {
-			unset($_SESSION["glpi_plugin_skeleton_profile"]);
+			unset($_SESSION["glpi_plugin_callmanager_profile"]);
 		}
 	}
 
@@ -116,8 +125,8 @@ class PluginSkeletonProfile extends CommonDBTM {
 	 * @return string
 	 */
 	function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
-		if (Session::haveRight("profile", UPDATE) && $item->getType() == 'Profile') {
-			return __('Skeleton', 'skeleton');
+		if (Session::haveRight("profile", UPDATE) && $item->getType() == Profile::class) {
+			return __('Call Manager', 'callmanager');
 		}
 
 		return '';
@@ -132,7 +141,7 @@ class PluginSkeletonProfile extends CommonDBTM {
 	 * @return boolean
 	 */
 	static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
-		if ($item->getType() == 'Profile') {
+		if ($item->getType() == Profile::class) {
 
 			$ID = $item->getID();
 			$prof = new self();
@@ -155,10 +164,10 @@ class PluginSkeletonProfile extends CommonDBTM {
 	static function getRightsGeneral() {
 		$rights = [
 			[
-				'itemtype'  => 'PluginSkeletonProfile',
-				'label'     => __('Config update', 'pluginskeleton'),
-				'field'     => 'plugin_skeleton_config',
-				'rights'    =>  [UPDATE => __('Allow editing', 'pluginskeleton')],
+				'itemtype'  => PluginCallManagerProfile::class,
+				'label'     => __('Config update', 'callmanager'),
+				'field'     => 'plugin_callmanager_config',
+				'rights'    =>  [UPDATE => __('Allow editing', 'callmanager')],
 				'default'   => 23
             ]
 		];
@@ -175,7 +184,6 @@ class PluginSkeletonProfile extends CommonDBTM {
 	 * @return void
 	 */
 	function showForm($profiles_id = 0, $openform = true, $closeform = true) {
-
 		if (!Session::haveRight("profile",READ)) return false;
 
 		echo "<div class='firstbloc'>";

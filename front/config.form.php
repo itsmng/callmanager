@@ -1,20 +1,21 @@
 <?php
 include("../../../inc/includes.php");
-require_once(Plugin::getPhpDir('skeleton') . "/inc/config.class.php");
+
+use Itsmng\Plugin\CallManager\PluginCallManagerConfig;
 
 $plugin = new Plugin();
 
-if($plugin->isActivated("skeleton")) {
-    $config = new PluginSkeletonConfig();
+if($plugin->isActivated("callmanager")) {
+    $config = new PluginCallManagerConfig();
     if(isset($_POST["update"])) {
-        Session::checkRight("plugin_skeleton_config", UPDATE);
+        Session::checkRight("plugin_callmanager_config", UPDATE);
         $config::updateConfigValues($_POST);
     } else {
-        if (!Session::haveRight("plugin_skeleton_config", READ | UPDATE)) {
+        /*if (!Session::haveRight("plugin_callmanager_config", READ | UPDATE)) {
             Html::displayRightError();
             return;
-        }
-        Html::header("Okta", $_SERVER["PHP_SELF"], "config", Plugin::class);
+        }*/
+        Html::header("Call Manager", $_SERVER["PHP_SELF"], "config", Plugin::class);
         $config->showConfigForm();
     }
 } else {

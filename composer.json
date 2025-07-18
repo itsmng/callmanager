@@ -1,0 +1,17 @@
+{
+    "name": "itsmng/callmanager",
+    "autoload": {
+        "psr-4": {
+            "Itsmng\\Plugin\\CallManager\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "théodore clément",
+            "email": "213218350+thclemnt@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "nikic/fast-route": "^1.3"
+    }
+}
