@@ -10,14 +10,17 @@ define ('CALLMANAGER_ITSMNG_MIN_VERSION', '1.0');
 $hostLoader = require __DIR__ . '/../../vendor/autoload.php';
 
 $hostLoader->addPsr4(
-    'Itsmng\\Plugin\\CallManager\\',
+    'GlpiPlugin\\CallManager\\',
     __DIR__ . '/src/'
 );
+
+use GlpiPlugin\CallManager\PluginCallManagerConfig;
+use GlpiPlugin\CallManager\PluginCallManagerProfile;
 
 /**
  * Define the plugin's version and informations
  *
- * @return Array [name, version, author, homepage, license, minGlpiVersion]
+ * @return array [name, version, author, homepage, license, minGlpiVersion]
  */
 function plugin_version_callmanager() {
    $requirements = [

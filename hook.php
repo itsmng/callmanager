@@ -1,7 +1,7 @@
 <?php
 
-use Itsmng\Plugin\CallManager\PluginCallManagerConfig;
-use Itsmng\Plugin\CallManager\PluginCallManagerProfile;
+use GlpiPlugin\CallManager\PluginCallManagerConfig;
+use GlpiPlugin\CallManager\PluginCallManagerProfile;
 
 function plugin_callmanager_install() {
    set_time_limit(900);

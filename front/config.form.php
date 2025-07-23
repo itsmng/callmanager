@@ -1,7 +1,7 @@
 <?php
 include("../../../inc/includes.php");
 
-use Itsmng\Plugin\CallManager\PluginCallManagerConfig;
+use GlpiPlugin\CallManager\PluginCallManagerConfig;
 
 $plugin = new Plugin();
 

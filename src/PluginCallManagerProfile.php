@@ -1,6 +1,6 @@
 <?php
 
-namespace Itsmng\Plugin\CallManager;
+namespace GlpiPlugin\CallManager;
 
 use CommonDBTM;
 use CommonGLPI;
