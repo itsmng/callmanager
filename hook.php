@@ -2,6 +2,7 @@
 
 use GlpiPlugin\CallManager\PluginCallManagerConfig;
 use GlpiPlugin\CallManager\PluginCallManagerProfile;
+use GlpiPlugin\CallManager\PluginCallManagerUser;
 
 function plugin_callmanager_install() {
    set_time_limit(900);
@@ -10,6 +11,7 @@ function plugin_callmanager_install() {
    $classesToInstall = [
       PluginCallManagerConfig::class,
       PluginCallManagerProfile::class,
+      PluginCallManagerUser::class,
    ];
 
    echo "<center>";
@@ -44,8 +46,9 @@ function plugin_callmanager_uninstall() {
    echo "<td align='center'>";
 
    $classesToUninstall = [
-      PluginCallManagerConfig::class,
+      PluginCallManagerUser::class,
       PluginCallManagerProfile::class,
+      PluginCallManagerConfig::class,
    ];
 
    foreach ($classesToUninstall as $class) {
@@ -61,4 +64,24 @@ function plugin_callmanager_uninstall() {
    echo "</table></center>";
 
    return true;
+}
+
+/**
+ * Hook function called after a user is added
+ *
+ * @param CommonDBTM $user
+ * @return void
+ */
+function plugin_callmanager_user_add(CommonDBTM $user) {
+   // Nothing to do here, the RIO number will be added when the form is saved
+}
+
+/**
+ * Hook function called after a user is updated
+ *
+ * @param CommonDBTM $user
+ * @return void
+ */
+function plugin_callmanager_user_update(CommonDBTM $user) {
+   // Nothing to do here, the RIO number will be added when the form is saved
 }

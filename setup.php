@@ -16,6 +16,7 @@ $hostLoader->addPsr4(
 
 use GlpiPlugin\CallManager\PluginCallManagerConfig;
 use GlpiPlugin\CallManager\PluginCallManagerProfile;
+use GlpiPlugin\CallManager\PluginCallManagerUser;
 
 /**
  * Define the plugin's version and informations
@@ -53,11 +54,29 @@ function plugin_init_callmanager() {
    Plugin::registerClass(PluginCallManagerConfig::class, [
       'addtabon' => Config::class
    ]);
+   Plugin::registerClass(PluginCallManagerUser::class, ['addtabon' => User::class]);
+   
    $PLUGIN_HOOKS['change_profile']['callmanager'] = [PluginCallManagerProfile::class, 'changeProfile'];
+   $PLUGIN_HOOKS['post_init']['callmanager'] = 'plugin_callmanager_postinit';
 
    if (Session::haveRight('plugin_callmanager_config', UPDATE)) {
        $PLUGIN_HOOKS['config_page']['callmanager'] = 'front/config.form.php';
    }
+}
+
+/**
+ * Post init function
+ */
+function plugin_callmanager_postinit() {
+   global $PLUGIN_HOOKS;
+
+   $PLUGIN_HOOKS['item_add']['callmanager'] = [
+      'User' => 'plugin_callmanager_user_add'
+   ];
+   
+   $PLUGIN_HOOKS['item_update']['callmanager'] = [
+      'User' => 'plugin_callmanager_user_update'
+   ];
 }
 
 /**

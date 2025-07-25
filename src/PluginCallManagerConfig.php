@@ -20,7 +20,7 @@ class PluginCallManagerConfig extends CommonDBTM {
                   `value` TEXT collate utf8_unicode_ci default NULL,
                   PRIMARY KEY (`id`)
               ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-SQL;
+            SQL;
 
             $DB->queryOrDie($query, $DB->error());
         }
@@ -35,7 +35,7 @@ SQL;
         if ($DB->tableExists($table)) {
             $query = <<<SQL
               DROP TABLE `$table`
-SQL;
+            SQL;
 
             $DB->queryOrDie($query, $DB->error());
         }
@@ -50,7 +50,7 @@ SQL;
 
         $query = <<<SQL
           SELECT name, value from $table
-SQL;
+        SQL;
 
         $results = iterator_to_array($DB->query($query));
 
@@ -72,7 +72,7 @@ SQL;
               UPDATE $table
               SET value='{$values[$key]}'
               WHERE name='{$key}'
-SQL;
+            SQL;
             $DB->query($query);
         }
         return true;
