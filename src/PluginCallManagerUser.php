@@ -10,6 +10,14 @@ use Plugin;
 
 class PluginCallManagerUser extends CommonDBTM {
 
+    /**
+     * Get the table name for this class
+     * @return string
+     */
+    static function getTable($classname = null) {
+        return "glpi_plugin_callmanager_users";
+    }
+
     static function install() {
         global $DB;
 
@@ -196,7 +204,7 @@ class PluginCallManagerUser extends CommonDBTM {
             'SELECT' => ['u.id', 'u.name'],
             'FROM' => 'glpi_users AS u',
             'JOIN' => [
-                'glpi_plugin_callmanager_plugincallmanagerusers AS pcu' => [
+                self::getTable() . ' AS pcu' => [
                     'ON' => [
                         'pcu' => 'users_id',
                         'u' => 'id'

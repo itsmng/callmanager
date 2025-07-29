@@ -7,6 +7,14 @@ use Plugin;
 
 class PluginCallManagerConfig extends CommonDBTM {
 
+    /**
+     * Get the table name for this class
+     * @return string
+     */
+    static function getTable($classname = null) {
+        return "glpi_plugin_callmanager_configs";
+    }
+
     static function install() {
         global $DB;
 

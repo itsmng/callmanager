@@ -1,0 +1,42 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: callmanager\n"
+"POT-Creation-Date: 2025-07-25 14:40+0200\n"
+"PO-Revision-Date: 2025-07-25 14:40+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Call Manager"
+msgstr "Call Manager"
+
+msgid "RIO Number"
+msgstr "RIO Number"
+
+msgid "MySQL tables installation"
+msgstr "MySQL tables installation"
+
+msgid "MySQL tables uninstallation"
+msgstr "MySQL tables uninstallation"
+
+msgid "Access denied to CallManager API"
+msgstr "Access denied to CallManager API"
+
+msgid "Access to CallManager API/UI"
+msgstr "Access to CallManager API/UI"
+
+msgid "Config update"
+msgstr "Config update"
+
+msgid "Allow editing"
+msgstr "Allow editing"
+
+msgid "General"
+msgstr "General"
+
+msgid "None"
+msgstr "None"

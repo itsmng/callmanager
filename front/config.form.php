@@ -11,10 +11,10 @@ if($plugin->isActivated("callmanager")) {
         Session::checkRight("plugin_callmanager_config", UPDATE);
         $config::updateConfigValues($_POST);
     } else {
-        /*if (!Session::haveRight("plugin_callmanager_config", READ | UPDATE)) {
+        if (!Session::haveRight("plugin_callmanager_config", READ | UPDATE)) {
             Html::displayRightError();
             return;
-        }*/
+        }
         Html::header("Call Manager", $_SERVER["PHP_SELF"], "config", Plugin::class);
         $config->showConfigForm();
     }

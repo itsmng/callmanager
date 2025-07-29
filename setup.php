@@ -17,6 +17,7 @@ $hostLoader->addPsr4(
 use GlpiPlugin\CallManager\PluginCallManagerConfig;
 use GlpiPlugin\CallManager\PluginCallManagerProfile;
 use GlpiPlugin\CallManager\PluginCallManagerUser;
+use User;
 
 /**
  * Define the plugin's version and informations
