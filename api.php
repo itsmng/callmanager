@@ -1,11 +1,10 @@
 <?php
 
 include("../../inc/includes.php");
-include("./src/MassiveActionApi.php");
 include("./vendor/autoload.php");
 
 header('Content-Type: application/json');
-ini_set('session.use_cookies', 0);
+// ini_set('session.use_cookies', 0);  Disable because returned a warning and blocked parsed json
 
 // Check if plugin is activated...
 if (!(new Plugin())->isActivated('callmanager')) {

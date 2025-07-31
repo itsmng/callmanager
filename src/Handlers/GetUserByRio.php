@@ -14,7 +14,7 @@ class GetUserByRio {
         }
 
         $users = PluginCallManagerUser::getUsersByRio($rioNumber);
-        $GLPI_CACHE->set($cacheKey, $users);
+        // $GLPI_CACHE->set($cacheKey, $users);
 
         return ["users" => $users];
     }
