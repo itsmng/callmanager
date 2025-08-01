@@ -14,7 +14,7 @@ Session::checkRight('plugin_callmanager_access', READ);
 Html::header(
     __('Call Manager', 'callmanager'),
     $_SERVER['PHP_SELF'],
-    'plugins',
+    'helpdesk',
     GlpiPlugin\CallManager\CallManagerMenu::class,
     'option'
 );
