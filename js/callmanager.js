@@ -150,9 +150,9 @@ const SearchForm = () => {
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-striped">
+                <table class="tab_cadrehov table table-striped">
                   <thead>
-                    <tr>
+                    <tr class="tab_bg_2">
                       <th>ID</th>
                       <th>${__('Name', 'callmanager')}</th>
                       <th>RIO</th>
