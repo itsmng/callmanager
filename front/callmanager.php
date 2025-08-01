@@ -19,7 +19,9 @@ Html::header(
     'option'
 );
 
-echo "<script type='module' src='" . Plugin::getWebDir('callmanager') . "/js/console.js'></script>";
+echo '<link rel="stylesheet" type="text/css" href="../Styles/style.css">';
+
+echo "<script type='module' src='" . Plugin::getWebDir('callmanager') . "/js/callmanager.js'></script>";
 echo "<div id='plugin_callmanager_ui'></div>";
 
 Html::footer();

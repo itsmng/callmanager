@@ -140,7 +140,7 @@ class PluginCallManagerUser extends CommonDBTM {
             echo "<tr class='tab_bg_2'>";
             echo "<td><strong>URL Call Manager</strong></td>";
             echo "<td>";
-            $rio_url = $CFG_GLPI['root_doc'] . "/plugins/callmanager/front/config.form.php?rio=" . 
+            $rio_url = $CFG_GLPI['root_doc'] . "/plugins/callmanager/front/callmanager.php?rio=" . 
                        urlencode($rio_data->fields['rio_number']);
             echo "<a href='$rio_url' target='_blank'>$rio_url</a>";
             echo "</td>";
