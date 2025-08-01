@@ -57,8 +57,7 @@ const SearchForm = () => {
       if (result.users && result.users.length > 0) {
         const enrichedUsers = result.users.map(user => ({
           id: user.id,
-          firstname: user.firstname || '',
-          lastname: user.lastname || user.name || '',
+          fullname: user.fullname || '',
           email: user.email || '',
           phone: user.phone || '',
           entity: user.entity || '',
@@ -164,7 +163,7 @@ const SearchForm = () => {
                     ${users.map(user => html`
                       <tr key=${user.id}>
                         <td>${user.id}</td>
-                        <td>${user.lastname || user.name || __('N/A', 'callmanager')}</td>
+                        <td>${user.fullname || user.name || __('N/A', 'callmanager')}</td>
                         <td>${user.rio}</td>
                         <td>
                           <button

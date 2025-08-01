@@ -227,7 +227,7 @@ class PluginCallManagerUser extends CommonDBTM {
         global $DB;
 
         $result = $DB->request([
-            'SELECT' => ['u.id', 'u.name'],
+            'SELECT' => ['u.id', 'u.name', 'u.firstname', 'u.realname'],
             'FROM' => 'glpi_users AS u',
             'JOIN' => [
                 self::getTable() . ' AS pcu' => [
@@ -244,7 +244,7 @@ class PluginCallManagerUser extends CommonDBTM {
 
         $users = [];
         foreach ($result as $row) {
-            $users[] = ['id' => $row['id'], 'name' => $row['name']];
+            $users[] = ['id' => $row['id'], 'name' => $row['name'], 'fullname' => rtrim($row['firstname'] . ' ' . $row['realname'])];
         }
 
         return $users;
