@@ -82,7 +82,9 @@ const SearchForm = () => {
         const currentPath = window.location.pathname;
         const baseUrl = currentPath.substring(0, currentPath.indexOf('/plugins/'));
 
-        const ticketUrl = `${baseUrl}/front/ticket.php?contains[0]=${userId}&criteria[0][field]=4&criteria[0][searchtype]=equals&criteria[0][value]=${userId}&itemtype=Ticket&start=0`;
+        const baseQuery = `contains[0]=${userId}&criteria[0][field]=4&criteria[0][searchtype]=equals&criteria[0][value]=${userId}&itemtype=Ticket&start=0`;
+        const ctx = `callmanager=1&userid=${encodeURIComponent(userId)}${formData?.rio ? `&rio=${encodeURIComponent(formData.rio)}` : ''}`;
+        const ticketUrl = `${baseUrl}/front/ticket.php?${baseQuery}&${ctx}`;
 
         window.location.href = ticketUrl;
     };
