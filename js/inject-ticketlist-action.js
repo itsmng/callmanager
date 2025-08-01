@@ -55,7 +55,7 @@
     btn.textContent = __('Create ticket for this user', 'callmanager');
 
     btn.addEventListener('click', function () {
-      var url = new URL(window.location.origin + '/front/ticket.form.php');
+      var url = new URL('/front/ticket.form.php');
       url.searchParams.set('callmanager', '1');
       url.searchParams.set('userid', String(userId));
       var rio = params.get('rio');
