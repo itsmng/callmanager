@@ -96,13 +96,13 @@ const SearchForm = () => {
           <p>${__('Search a user by RIO number', 'callmanager')}</p>
         </div>
 
-        <div class="search-form card">
-          <div class="card-header">
+        <div class="search-form cm-card">
+          <div class="cm-card-header">
             <h2>${__('Search criteria', 'callmanager')}</h2>
           </div>
-          <div class="card-body">
+          <div class="cm-card-body">
             <form onSubmit=${(e) => { e.preventDefault(); handleSearch(); }}>
-              <div class="form-group">
+              <div class="cm-form-group">
                 <label for="rio">${__('RIO number *', 'callmanager')}</label>
                 <input
                   type="text"
@@ -127,12 +127,13 @@ const SearchForm = () => {
 
                 <button
                   type="button"
-                  class="btn btn-secondary ml-2"
+                  class="btn btn-secondary"
+                  style="margin-left: 10px;"
                   onClick=${() => {
-      setFormData({ rio: '', firstname: '', lastname: '', phone: '' });
-      setUsers([]);
-      setError('');
-    }}
+                    setFormData({ rio: '', firstname: '', lastname: '', phone: '' });
+                    setUsers([]);
+                    setError('');
+                  }}
                 >
                   ${__('Clear', 'callmanager')}
                 </button>
@@ -144,11 +145,11 @@ const SearchForm = () => {
         ${error && html`<div class="alert alert-danger">${error}</div>`}
 
         ${users.length > 0 && html`
-          <div class="search-results card">
-            <div class="card-header">
+          <div class="search-results cm-card">
+            <div class="cm-card-header">
               <h2>${users.length} ${__('user(s) found', 'callmanager')}</h2>
             </div>
-            <div class="card-body">
+            <div class="cm-card-body">
               <div class="table-responsive">
                 <table class="tab_cadrehov table table-striped">
                   <thead>

@@ -19,6 +19,46 @@
     margin-bottom: 20px;
 }
 
+.cm-form-group {
+    margin-bottom: 15px;
+}
+
+/* Minimal Bootstrap-like card styles for CallManager */
+.cm-card {
+    display: block;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    margin-bottom: 1rem;
+}
+
+.cm-card-header {
+    padding: .5rem 1rem;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    background-color: rgba(0,0,0,.03);
+    font-weight: 600;
+}
+
+.cm-card-body {
+    padding: 1rem;
+}
+
+.cm-card-footer {
+    padding: .5rem 1rem;
+    border-top: 1px solid rgba(0,0,0,.125);
+    background-color: rgba(0,0,0,.03);
+}
+
+.cm-card-title {
+    margin-bottom: .5rem;
+    font-size: 1.25rem;
+}
+
+.cm-card-text {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
 .form-actions {
     display: flex;
     justify-content: flex-end;
