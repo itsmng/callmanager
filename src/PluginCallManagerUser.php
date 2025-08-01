@@ -106,49 +106,75 @@ class PluginCallManagerUser extends CommonDBTM {
             $rio_data->fields['rio_number'] = '';
         }
 
-        echo "<div>";
-        echo "<div>";
+        echo "<div class='spaced'>";
+        echo "<div class='center'>";
 
         if ($canedit) {
             echo "<form method='post' action='" . Plugin::getWebDir('callmanager') . "/front/user.form.php'>";
         }
 
-        echo "<div class='form-group row'>";
-        echo "<label class='col-sm-2 col-form-label'>" . __('RIO Number', 'callmanager') . "</label>";
-        echo "<div class='col-sm-10'>";
+        echo "<table class='tab_cadre_fixe'>";
+        echo "<tr class='tab_bg_1'>";
+        echo "<th colspan='2'>" . __('Call Manager', 'callmanager') . "</th>";
+        echo "</tr>";
+
+        echo "<tr class='tab_bg_2'>";
+        echo "<td width='30%'><strong>" . __('RIO Number', 'callmanager') . "</strong></td>";
+        echo "<td>";
         
         if ($canedit) {
             echo Html::input('rio_number', [
                 'value' => $rio_data->fields['rio_number'] ?? '',
-                'class' => 'form-control'
+                'size' => 20,
+                'maxlength' => 20,
+                'placeholder' => 'Ex: 1234567890'
             ]);
         } else {
-            echo "<div class='form-control-plaintext'>" . 
-                 ($rio_data->fields['rio_number'] ?? __('None')) . 
-                 "</div>";
+            echo ($rio_data->fields['rio_number'] ?? __('None', 'callmanager'));
         }
         
-        echo "</div>";
-        echo "</div>";
+        echo "</td>";
+        echo "</tr>";
+
+        if (!empty($rio_data->fields['rio_number'])) {
+            echo "<tr class='tab_bg_2'>";
+            echo "<td><strong>URL Call Manager</strong></td>";
+            echo "<td>";
+            $rio_url = $CFG_GLPI['root_doc'] . "/plugins/callmanager/front/config.form.php?rio=" . 
+                       urlencode($rio_data->fields['rio_number']);
+            echo "<a href='$rio_url' target='_blank'>$rio_url</a>";
+            echo "</td>";
+            echo "</tr>";
+        }
 
         if ($canedit) {
+            echo "<tr class='tab_bg_2'>";
+            echo "<td colspan='2' class='center'>";
             echo Html::hidden('users_id', ['value' => $ID]);
-            echo "<div class='form-group row'>";
-            echo "<div class='col-sm-12 text-center'>";
             echo Html::submit(_sx('button', 'Save'), [
                 'name'  => 'update_rio',
-                'class' => 'btn btn-secondary'
+                'class' => 'btn btn-primary'
             ]);
-            echo "</div>";
-            echo "</div>";
-            
+            echo "</td>";
+            echo "</tr>";
+        }
+
+        echo "</table>";
+
+        if ($canedit) {
             Html::closeForm();
         }
 
         echo "</div>";
         echo "</div>";
-    }
 
+        if (!empty($rio_data->fields['rio_number'])) {
+            echo "<script>
+                console.log('Call Manager - RIO configuré: " . $rio_data->fields['rio_number'] . "');
+                console.log('Test API: /~leo/itsm-ng/plugins/callmanager/api.php/users/" . $rio_data->fields['rio_number'] . "');
+            </script>";
+        }
+    }
     /**
      * Update RIO number for user
      *

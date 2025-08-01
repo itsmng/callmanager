@@ -3,6 +3,8 @@ include("../../../inc/includes.php");
 
 use GlpiPlugin\CallManager\PluginCallManagerConfig;
 
+echo '<link rel="stylesheet" type="text/css" href="../Styles/style.css">';
+
 $plugin = new Plugin();
 
 if($plugin->isActivated("callmanager")) {
