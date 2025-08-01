@@ -3,93 +3,93 @@ const { useState, useEffect } = preactHooks;
 const html = htm.bind(h);
 
 const SearchForm = () => {
-    const [formData, setFormData] = useState({
-        rio: '',
-        firstname: '',
-        lastname: '',
-        phone: ''
-    });
-    const [users, setUsers] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+  const [formData, setFormData] = useState({
+    rio: '',
+    firstname: '',
+    lastname: '',
+    phone: ''
+  });
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-    useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const rioParam = urlParams.get('rio');
-        if (rioParam) {
-            setFormData(prev => ({ ...prev, rio: rioParam }));
-            handleSearch({ ...formData, rio: rioParam });
-        }
-    }, []);
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const rioParam = urlParams.get('rio');
+    if (rioParam) {
+      setFormData(prev => ({ ...prev, rio: rioParam }));
+      handleSearch({ ...formData, rio: rioParam });
+    }
+  }, []);
 
-    const handleInputChange = (field, value) => {
-        setFormData(prev => ({ ...prev, [field]: value }));
-    };
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
 
-    const handleSearch = async (searchData = formData) => {
-        if (!searchData.rio.trim()) {
-            setError(__('RIO number is required', 'callmanager'));
-            return;
-        }
+  const handleSearch = async (searchData = formData) => {
+    if (!searchData.rio.trim()) {
+      setError(__('RIO number is required', 'callmanager'));
+      return;
+    }
 
-        setLoading(true);
-        setError('');
+    setLoading(true);
+    setError('');
 
-        try {
-            const currentPath = window.location.pathname;
-            const baseUrl = currentPath.substring(0, currentPath.indexOf('/plugins/'));
-            
-            const apiUrl = `${baseUrl}/plugins/callmanager/api.php/users/${searchData.rio}`;
-            const response = await fetch(apiUrl, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'same-origin'
-            });
+    try {
+      const currentPath = window.location.pathname;
+      const baseUrl = currentPath.substring(0, currentPath.indexOf('/plugins/'));
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+      const apiUrl = `${baseUrl}/plugins/callmanager/api.php/users/${searchData.rio}`;
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'same-origin'
+      });
 
-            const result = await response.json();
-            
-            if (result.users && result.users.length > 0) {
-                const enrichedUsers = result.users.map(user => ({
-                    id: user.id,
-                    firstname: user.firstname || '',
-                    lastname: user.lastname || user.name || '',
-                    email: user.email || '',
-                    phone: user.phone || '',
-                    entity: user.entity || '',
-                    rio: searchData.rio
-                }));
-                
-                setUsers(enrichedUsers);
-            } else {
-                setUsers([]);
-                setError(__('No user found for this RIO', 'callmanager'));
-            }
-        } catch (err) {
-            setError(__('Connection error: ', 'callmanager') + err.message);
-            console.error('Search error:', err);
-        } finally {
-            setLoading(false);
-        }
-    };
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-    const viewUserTickets = (userId) => {
-        const currentPath = window.location.pathname;
-        const baseUrl = currentPath.substring(0, currentPath.indexOf('/plugins/'));
+      const result = await response.json();
 
-        const baseQuery = `contains[0]=${userId}&criteria[0][field]=4&criteria[0][searchtype]=equals&criteria[0][value]=${userId}&itemtype=Ticket&start=0`;
-        const ctx = `callmanager=1&userid=${encodeURIComponent(userId)}${formData?.rio ? `&rio=${encodeURIComponent(formData.rio)}` : ''}`;
-        const ticketUrl = `${baseUrl}/front/ticket.php?${baseQuery}&${ctx}`;
+      if (result.users && result.users.length > 0) {
+        const enrichedUsers = result.users.map(user => ({
+          id: user.id,
+          firstname: user.firstname || '',
+          lastname: user.lastname || user.name || '',
+          email: user.email || '',
+          phone: user.phone || '',
+          entity: user.entity || '',
+          rio: searchData.rio
+        }));
 
-        window.location.href = ticketUrl;
-    };
+        setUsers(enrichedUsers);
+      } else {
+        setUsers([]);
+        setError(__('No user found for this RIO', 'callmanager'));
+      }
+    } catch (err) {
+      setError(__('Connection error: ', 'callmanager') + err.message);
+      console.error('Search error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    return html`
+  const viewUserTickets = (userId) => {
+    const currentPath = window.location.pathname;
+    const baseUrl = currentPath.substring(0, currentPath.indexOf('/plugins/'));
+
+    const baseQuery = `contains[0]=${userId}&criteria[0][field]=4&criteria[0][searchtype]=equals&criteria[0][value]=${userId}&itemtype=Ticket&start=0`;
+    const ctx = `callmanager=1&userid=${encodeURIComponent(userId)}${formData?.rio ? `&rio=${encodeURIComponent(formData.rio)}` : ''}`;
+    const ticketUrl = `${baseUrl}/front/ticket.php?${baseQuery}&${ctx}`;
+
+    window.location.href = ticketUrl;
+  };
+
+  return html`
       <div class="callmanager-container">
         <div class="callmanager-header">
           <h1>${__('Call Manager - User search', 'callmanager')}</h1>
@@ -129,10 +129,10 @@ const SearchForm = () => {
                   type="button"
                   class="btn btn-secondary ml-2"
                   onClick=${() => {
-                    setFormData({ rio: '', firstname: '', lastname: '', phone: '' });
-                    setUsers([]);
-                    setError('');
-                  }}
+      setFormData({ rio: '', firstname: '', lastname: '', phone: '' });
+      setUsers([]);
+      setError('');
+    }}
                 >
                   ${__('Clear', 'callmanager')}
                 </button>
@@ -187,43 +187,42 @@ const SearchForm = () => {
 };
 
 const CallManagerConfig = {
-    component: SearchForm,
+  component: SearchForm,
 
-    init: () => {
-        const container = document.getElementById('plugin_callmanager_ui');
-        if (container) {
-            // Use htm template to render component
-            render(html`<${SearchForm} />`, container);
-        }
+  init: () => {
+    const container = document.getElementById('plugin_callmanager_ui');
+    if (container) {
+      render(html`<${SearchForm} />`, container);
+    }
+  },
+
+  api: {
+    getUserByRio: (rio) => {
+      const currentPath = window.location.pathname;
+      const baseUrl = currentPath.substring(0, currentPath.indexOf('/plugins/'));
+      return `${baseUrl}/plugins/callmanager/api.php/users/${rio}`;
     },
-    
-    api: {
-        getUserByRio: (rio) => {
-            const currentPath = window.location.pathname;
-            const baseUrl = currentPath.substring(0, currentPath.indexOf('/plugins/'));
-            return `${baseUrl}/plugins/callmanager/api.php/users/${rio}`;
-        },
-        getUserTickets: () => {
-            const currentPath = window.location.pathname;
-            const baseUrl = currentPath.substring(0, currentPath.indexOf('/plugins/'));
-            return `${baseUrl}/plugins/callmanager/ajax/get_user_tickets.php`;
-        },
-        createTicket: () => {
-            const currentPath = window.location.pathname;
-            const baseUrl = currentPath.substring(0, currentPath.indexOf('/plugins/'));
-            return `${baseUrl}/plugins/callmanager/ajax/create_ticket.php`;
-        }
+    getUserTickets: () => {
+      const currentPath = window.location.pathname;
+      const baseUrl = currentPath.substring(0, currentPath.indexOf('/plugins/'));
+      return `${baseUrl}/plugins/callmanager/ajax/get_user_tickets.php`;
     },
+    createTicket: () => {
+      const currentPath = window.location.pathname;
+      const baseUrl = currentPath.substring(0, currentPath.indexOf('/plugins/'));
+      return `${baseUrl}/plugins/callmanager/ajax/create_ticket.php`;
+    }
+  },
 };
 
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = CallManagerConfig;
+  module.exports = CallManagerConfig;
 } else {
-    window.CallManagerConfig = CallManagerConfig;
+  window.CallManagerConfig = CallManagerConfig;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    CallManagerConfig.init();
+  CallManagerConfig.init();
 });
 
 const style = document.createElement('style');

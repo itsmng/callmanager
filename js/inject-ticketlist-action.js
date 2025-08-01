@@ -27,6 +27,7 @@
         '.header .controls',
         '.header',
         '.actions',
+        '.search_page',
         '.buttonsBar',
         '#page .controls',
         '#page'
@@ -47,12 +48,30 @@
     // Prevent duplicate insertion
     if (document.getElementById('cm-create-ticket-for-user')) return;
 
-    var btn = document.createElement('button');
-    btn.id = 'cm-create-ticket-for-user';
-    btn.type = 'button';
-    btn.className = 'btn btn-primary d-block mx-auto mb-2';
-    btn.title = __('Open ticket creation form', 'callmanager');
-    btn.textContent = __('Create ticket for this user', 'callmanager');
+    let btn;
+    let cont;
+    if (document.querySelector('.btn')) {
+      btn = document.createElement('button');
+      btn.id = 'cm-create-ticket-for-user';
+      btn.type = 'button';
+      btn.className = 'btn btn-primary d-block mx-auto mb-2';
+      btn.title = __('Open ticket creation form', 'callmanager');
+      btn.textContent = __('Create ticket for this user', 'callmanager');
+      cont = btn;
+    } else {
+      cont = document.createElement('div');
+      cont.className = 'center';
+      cont.style.marginBottom = '10px';
+      btn = document.createElement('button');
+      btn.id = 'cm-create-ticket-for-user';
+      btn.type = 'button';
+      btn.className = 'vsubmit';
+      btn.title = __('Open ticket creation form', 'callmanager');
+      btn.style.fontSize = '1.5em'; // Make the button text larger
+      btn.style.padding = '10px 20px'; // Add padding to make the button larger
+      btn.innerHTML = `<i class="fas fa-plus" style="margin-right: 10px;"></i>${__('Create ticket for this user', 'callmanager')}`;
+      cont.appendChild(btn);
+    }
 
     btn.addEventListener('click', function () {
       var url = `/front/ticket.form.php?callmanager=1&userid=${userId}`;
@@ -61,7 +80,7 @@
       window.location.href = url;
     });
 
-    container.insertBefore(btn, container.firstChild);
+    container.insertBefore(cont, container.firstChild);
   } catch (e) {
     console.warn('CallManager inject-ticketlist-action error:', e);
   }

@@ -143,11 +143,13 @@ class ApiRouter
 
     public function handleRequest(string $httpMethod, string $uri)
     {
-        $sessionToken = $this->retrieveSession();
-        if ($sessionToken === null) {
-            http_response_code(401);
-            echo json_encode(['error' => 'Unauthorized']);
-            return;
+        if (isset(getallheaders()['Session-Token'])) {
+            $sessionToken = $this->retrieveSession();
+            if ($sessionToken === null) {
+                http_response_code(401);
+                echo json_encode(['error' => 'Unauthorized']);
+                return;
+            }
         }
 
         $apiInit = $this->initApi();
