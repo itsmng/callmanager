@@ -74,9 +74,9 @@
     }
 
     btn.addEventListener('click', function () {
-      var url = `/front/ticket.form.php?callmanager=1&userid=${userId}`;
-      var rio = params.get('rio');
-      if (rio) url += `&rio=${rio}`;
+      // Build redirect to plugin endpoint that will impersonate and then send us to the standard form
+      const url = `/plugins/callmanager/front/impersonate_and_redirect.php?caller_users_id=${encodeURIComponent(userId)}`;
+
       window.location.href = url;
     });
 

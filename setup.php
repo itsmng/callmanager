@@ -52,7 +52,6 @@ function plugin_init_callmanager()
         "/node_modules/preact/hooks/dist/hooks.umd.js",
         "/node_modules/htm/dist/htm.umd.js",
         "/js/inject-ticketlist-action.js",
-        "/js/inject-ticketcreate-prefill.js",
     ];
 
     // Register profile rights
