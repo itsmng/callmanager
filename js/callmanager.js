@@ -55,16 +55,16 @@ const SearchForm = () => {
       const result = await response.json();
 
       if (result.users && result.users.length > 0) {
-        const enrichedUsers = result.users.map(user => ({
+        const normalized = result.users.map(user => ({
           id: user.id,
-          fullname: user.fullname || '',
-          email: user.email || '',
           phone: user.phone || '',
-          entity: user.entity || '',
-          rio: searchData.rio
+          lastname: user.lastname || '',
+          firstname: user.firstname || '',
+          rio: user.rio || searchData.rio,
+          email: user.email || ''
         }));
 
-        setUsers(enrichedUsers);
+        setUsers(normalized);
       } else {
         setUsers([]);
         setError(__('No user found for this RIO', 'callmanager'));
@@ -154,24 +154,43 @@ const SearchForm = () => {
                   <thead>
                     <tr class="tab_bg_2">
                       <th>ID</th>
-                      <th>${__('Name', 'callmanager')}</th>
+                      <th>${__('Phone number', 'callmanager')}</th>
+                      <th>${__('Last name', 'callmanager')}</th>
+                      <th>${__('First name', 'callmanager')}</th>
                       <th>RIO</th>
-                      <th>Action</th>
+                      <th>${__('Email', 'callmanager')}</th>
+                      <th>${__('Action', 'callmanager')}</th>
                     </tr>
                   </thead>
                   <tbody>
                     ${users.map(user => html`
                       <tr key=${user.id}>
                         <td>${user.id}</td>
-                        <td>${user.fullname || user.name || __('N/A', 'callmanager')}</td>
-                        <td>${user.rio}</td>
-                        <td>
+                        <td>${user.phone || __('N/A', 'callmanager')}</td>
+                        <td>${user.lastname || __('N/A', 'callmanager')}</td>
+                        <td>${user.firstname || __('N/A', 'callmanager')}</td>
+                        <td>${user.rio || __('N/A', 'callmanager')}</td>
+                        <td>${user.email || __('N/A', 'callmanager')}</td>
+                        <td style="white-space:nowrap;">
                           <button
-                            class="btn btn-primary btn-sm"
+                            class="btn btn-secondary btn-sm"
                             onClick=${() => viewUserTickets(user.id)}
-                            title=${__('View this user\'s tickets', 'callmanager')}
+                            title=${__("View this user's tickets", 'callmanager')}
+                            style="margin-right:6px;"
                           >
                             ${__('View tickets', 'callmanager')}
+                          </button>
+                          <button
+                            class="btn btn-primary btn-sm"
+                            onClick=${() => {
+                              const currentPath = window.location.pathname;
+                              const baseUrl = currentPath.substring(0, currentPath.indexOf('/plugins/'));
+                              const url = `${baseUrl}/plugins/callmanager/front/impersonate_and_redirect.php?caller_users_id=${encodeURIComponent(user.id)}`;
+                              window.location.href = url;
+                            }}
+                            title=${__("Open ticket creation form", 'callmanager')}
+                          >
+                            ${__("Create ticket for this user", 'callmanager')}
                           </button>
                         </td>
                       </tr>
@@ -222,7 +241,9 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  CallManagerConfig.init();
+  setTimeout(() => {
+    CallManagerConfig.init();
+  }, 100); // Delay to ensure locales are loaded by base.js
 });
 
 const style = document.createElement('style');

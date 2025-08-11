@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: callmanager\n"
 "POT-Creation-Date: 2025-07-25 14:40+0200\n"
-"PO-Revision-Date: 2025-07-25 14:40+0200\n"
+"PO-Revision-Date: 2025-08-11 00:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_GB\n"
@@ -40,3 +40,94 @@ msgstr "General"
 
 msgid "None"
 msgstr "None"
+
+msgid "Call Manager settings"
+msgstr "Call Manager settings"
+
+msgid "RIO storage method"
+msgstr "RIO storage method"
+
+msgid "Plugin dedicated table (custom user tab)"
+msgstr "Plugin dedicated table (custom user tab)"
+
+msgid "User login (name)"
+msgstr "User login (name)"
+
+msgid "Registration number"
+msgstr "Registration number"
+
+# Frontend strings from js/callmanager.js
+msgid "Call Manager - User search"
+msgstr "Call Manager - User search"
+
+msgid "Search a user by RIO number"
+msgstr "Search a user by RIO number"
+
+msgid "RIO number is required"
+msgstr "RIO number is required"
+
+msgid "Searching…"
+msgstr "Searching…"
+
+msgid "Search"
+msgstr "Search"
+
+msgid "Clear"
+msgstr "Clear"
+
+msgid "Search criteria"
+msgstr "Search criteria"
+
+msgid "RIO number *"
+msgstr "RIO number *"
+
+msgid "Caller RIO number"
+msgstr "Caller RIO number"
+
+msgid "No user found for this RIO"
+msgstr "No user found for this RIO"
+
+msgid "Connection error: "
+msgstr "Connection error: "
+
+msgid "user(s) found"
+msgstr "user(s) found"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "View this user's tickets"
+msgstr "View this user's tickets"
+
+msgid "View tickets"
+msgstr "View tickets"
+
+msgid "N/A"
+msgstr "N/A"
+
+msgid "Phone number"
+msgstr "Phone number"
+
+msgid "Last name"
+msgstr "Last name"
+
+msgid "First name"
+msgstr "First name"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "Open ticket creation form"
+msgstr "Open ticket creation form"
+
+msgid "Create ticket for this user"
+msgstr "Create ticket for this user"
+
+msgid "Formcreator form"
+msgstr "Formcreator form"
+
+msgid "Formcreator plugin not available"
+msgstr "Formcreator plugin not available"

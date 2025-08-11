@@ -7,6 +7,7 @@ use CommonGLPI;
 use User;
 use Html;
 use Plugin;
+// no extra imports
 
 class PluginCallManagerUser extends CommonDBTM {
 
@@ -66,7 +67,9 @@ class PluginCallManagerUser extends CommonDBTM {
      * @return string
      */
     function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
-        if ($item->getType() == User::class) {
+        // Only show the custom tab when storage method is the plugin table
+        if ($item->getType() == User::class
+            && PluginCallManagerConfig::get('rio_storage_method', 'custom_table') === 'custom_table') {
             return __('Call Manager', 'callmanager');
         }
 
@@ -82,7 +85,9 @@ class PluginCallManagerUser extends CommonDBTM {
      * @return boolean
      */
     static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
-        if ($item->getType() == User::class && $item instanceof User) {
+        if ($item->getType() == User::class
+            && $item instanceof User
+            && PluginCallManagerConfig::get('rio_storage_method', 'custom_table') === 'custom_table') {
             self::showRIOForm($item);
         }
 
@@ -226,8 +231,52 @@ class PluginCallManagerUser extends CommonDBTM {
     static function getUsersByRio($rio) {
         global $DB;
 
+        $storage = PluginCallManagerConfig::get('rio_storage_method', 'custom_table');
+        $users = [];
+
+        if ($storage === 'name' || $storage === 'registration_number') {
+            // glpi_users: query by the configured field
+            $field = $storage; // safe: limited to allowed values
+            $result = $DB->request([
+                'SELECT' => ['u.id', 'u.firstname', 'u.realname', 'u.phone', 'e.email', 'e.is_default'],
+                'FROM'   => 'glpi_users AS u',
+                'LEFT JOIN' => [
+                    'glpi_useremails AS e' => [
+                        'ON' => [
+                            'e' => 'users_id',
+                            'u' => 'id'
+                        ]
+                    ]
+                ],
+                'WHERE'  => ["u.$field" => $rio]
+            ]);
+
+            $byId = [];
+            foreach ($result as $row) {
+                $id = (int)$row['id'];
+                if (!isset($byId[$id])) {
+                    $byId[$id] = [
+                        'id'        => $id,
+                        'phone'     => $row['phone'] ?? '',
+                        'lastname'  => $row['realname'] ?? '',
+                        'firstname' => $row['firstname'] ?? '',
+                        'rio'       => $rio,
+                        'email'     => ''
+                    ];
+                }
+                // Prefer default email when available
+                if (!empty($row['email'])) {
+                    if (empty($byId[$id]['email']) || (!empty($row['is_default']) && (int)$row['is_default'] === 1)) {
+                        $byId[$id]['email'] = $row['email'];
+                    }
+                }
+            }
+            return array_values($byId);
+        }
+
+        // Custom table: join plugin custom table and fetch email/phone
         $result = $DB->request([
-            'SELECT' => ['u.id', 'u.name', 'u.firstname', 'u.realname'],
+            'SELECT' => ['u.id', 'u.firstname', 'u.realname', 'u.phone', 'pcu.rio_number AS rio', 'e.email', 'e.is_default'],
             'FROM' => 'glpi_users AS u',
             'JOIN' => [
                 self::getTable() . ' AS pcu' => [
@@ -237,16 +286,39 @@ class PluginCallManagerUser extends CommonDBTM {
                     ]
                 ]
             ],
+            'LEFT JOIN' => [
+                'glpi_useremails AS e' => [
+                    'ON' => [
+                        'e' => 'users_id',
+                        'u' => 'id'
+                    ]
+                ]
+            ],
             'WHERE' => [
                 'pcu.rio_number' => $rio
             ]
         ]);
 
-        $users = [];
+        $byId = [];
         foreach ($result as $row) {
-            $users[] = ['id' => $row['id'], 'name' => $row['name'], 'fullname' => rtrim($row['firstname'] . ' ' . $row['realname'])];
+            $id = (int)$row['id'];
+            if (!isset($byId[$id])) {
+                $byId[$id] = [
+                    'id'        => $id,
+                    'phone'     => $row['phone'] ?? '',
+                    'lastname'  => $row['realname'] ?? '',
+                    'firstname' => $row['firstname'] ?? '',
+                    'rio'       => $row['rio'] ?? $rio,
+                    'email'     => ''
+                ];
+            }
+            if (!empty($row['email'])) {
+                if (empty($byId[$id]['email']) || (!empty($row['is_default']) && (int)$row['is_default'] === 1)) {
+                    $byId[$id]['email'] = $row['email'];
+                }
+            }
         }
 
-        return $users;
+        return array_values($byId);
     }
 }

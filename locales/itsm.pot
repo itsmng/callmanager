@@ -1,0 +1,121 @@
+msgid "Call Manager"
+msgstr ""
+
+msgid "RIO Number"
+msgstr ""
+
+msgid "MySQL tables installation"
+msgstr ""
+
+msgid "MySQL tables uninstallation"
+msgstr ""
+
+msgid "Access denied to CallManager API"
+msgstr ""
+
+msgid "Access to CallManager API/UI"
+msgstr ""
+
+msgid "Config update"
+msgstr ""
+
+msgid "Allow editing"
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+# New strings for configurable RIO storage method
+msgid "Call Manager settings"
+msgstr ""
+
+msgid "RIO storage method"
+msgstr ""
+
+msgid "Plugin dedicated table (custom user tab)"
+msgstr ""
+
+msgid "User login (name)"
+msgstr ""
+
+msgid "Registration number"
+msgstr ""
+
+# Frontend strings from js/callmanager.js
+msgid "Call Manager - User search"
+msgstr ""
+
+msgid "Search a user by RIO number"
+msgstr ""
+
+msgid "RIO number is required"
+msgstr ""
+
+msgid "Searching…"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Clear"
+msgstr ""
+
+msgid "Search criteria"
+msgstr ""
+
+msgid "RIO number *"
+msgstr ""
+
+msgid "Caller RIO number"
+msgstr ""
+
+msgid "No user found for this RIO"
+msgstr ""
+
+msgid "Connection error: "
+msgstr ""
+
+msgid "user(s) found"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "View this user's tickets"
+msgstr ""
+
+msgid "View tickets"
+msgstr ""
+
+msgid "N/A"
+msgstr ""
+
+msgid "Phone number"
+msgstr ""
+
+msgid "Last name"
+msgstr ""
+
+msgid "First name"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Action"
+msgstr ""
+
+msgid "Open ticket creation form"
+msgstr ""
+
+msgid "Create ticket for this user"
+msgstr ""
+
+msgid "Formcreator form"
+msgstr ""
+
+msgid "Formcreator plugin not available"
+msgstr ""

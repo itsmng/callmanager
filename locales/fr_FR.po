@@ -1,0 +1,133 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: callmanager\n"
+"POT-Creation-Date: 2025-08-11 00:00+0000\n"
+"PO-Revision-Date: 2025-08-11 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Call Manager"
+msgstr "Call Manager"
+
+msgid "RIO Number"
+msgstr "Numéro RIO"
+
+msgid "MySQL tables installation"
+msgstr "Installation des tables MySQL"
+
+msgid "MySQL tables uninstallation"
+msgstr "Désinstallation des tables MySQL"
+
+msgid "Access denied to CallManager API"
+msgstr "Accès refusé à l’API CallManager"
+
+msgid "Access to CallManager API/UI"
+msgstr "Accès à l’API/UI CallManager"
+
+msgid "Config update"
+msgstr "Mise à jour de la configuration"
+
+msgid "Allow editing"
+msgstr "Autoriser la modification"
+
+msgid "General"
+msgstr "Général"
+
+msgid "None"
+msgstr "Aucun"
+
+msgid "Call Manager settings"
+msgstr "Paramètres de Call Manager"
+
+msgid "RIO storage method"
+msgstr "Méthode de stockage du RIO"
+
+msgid "Plugin dedicated table (custom user tab)"
+msgstr "Table dédiée du plugin (onglet utilisateur personnalisé)"
+
+msgid "User login (name)"
+msgstr "Identifiant utilisateur"
+
+msgid "Registration number"
+msgstr "Matricule"
+
+# Chaînes de l'interface (js/callmanager.js)
+msgid "Call Manager - User search"
+msgstr "Call Manager - Recherche d’utilisateur"
+
+msgid "Search a user by RIO number"
+msgstr "Rechercher un utilisateur par numéro RIO"
+
+msgid "RIO number is required"
+msgstr "Le numéro RIO est requis"
+
+msgid "Searching…"
+msgstr "Recherche…"
+
+msgid "Search"
+msgstr "Rechercher"
+
+msgid "Clear"
+msgstr "Effacer"
+
+msgid "Search criteria"
+msgstr "Critères de recherche"
+
+msgid "RIO number *"
+msgstr "Numéro RIO *"
+
+msgid "Caller RIO number"
+msgstr "Numéro RIO de l’appelant"
+
+msgid "No user found for this RIO"
+msgstr "Aucun utilisateur trouvé pour ce RIO"
+
+msgid "Connection error: "
+msgstr "Erreur de connexion : "
+
+msgid "user(s) found"
+msgstr "utilisateur(s) trouvé(s)"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "View this user's tickets"
+msgstr "Voir les tickets de cet utilisateur"
+
+msgid "View tickets"
+msgstr "Voir les tickets"
+
+msgid "N/A"
+msgstr "N/A"
+
+msgid "Phone number"
+msgstr "Numéro de téléphone"
+
+msgid "Last name"
+msgstr "Nom"
+
+msgid "First name"
+msgstr "Prénom"
+
+msgid "Email"
+msgstr "E-mail"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "Open ticket creation form"
+msgstr "Ouvrir le formulaire de création de ticket"
+
+msgid "Create ticket for this user"
+msgstr "Créer un ticket pour cet utilisateur"
+
+msgid "Formcreator form"
+msgstr "Formulaire Formcreator"
+
+msgid "Formcreator plugin not available"
+msgstr "Plugin Formcreator non disponible"
