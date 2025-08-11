@@ -10,6 +10,7 @@ if($plugin->isActivated("callmanager")) {
     if(isset($_POST["update"])) {
         Session::checkRight("plugin_callmanager_config", UPDATE);
         $config::updateConfigValues($_POST);
+        Html::redirect($_SERVER["PHP_SELF"]);
     } else {
         if (!Session::haveRight("plugin_callmanager_config", READ | UPDATE)) {
             Html::displayRightError();
