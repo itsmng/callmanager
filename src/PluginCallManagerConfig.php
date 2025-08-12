@@ -197,7 +197,7 @@ class PluginCallManagerConfig extends CommonDBTM {
             ]);
             echo "<select name='formcreator_form_id' class='form-control'>";
             $noneSelected = ($currentFormId === '' || (string)$currentFormId === '0') ? " selected" : "";
-            echo "<option value=''{$noneSelected}>" . __('None', 'callmanager') . "</option>";
+            echo "<option value='0'{$noneSelected}>" . __('Wizard', 'callmanager') . "</option>";
             foreach ($forms as $form) {
                 $fid = (int)$form['id'];
                 $fname = Html::entities_deep($form['name']);

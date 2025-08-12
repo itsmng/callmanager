@@ -29,8 +29,12 @@ $redirect_url = "/front/ticket.form.php";
 $plugin = new Plugin();
 if ($plugin->isActivated('formcreator')) {
    $form_id = PluginCallManagerConfig::get('formcreator_form_id', '');
-   if (!empty($form_id)) {
-      $redirect_url = "/plugins/formcreator/front/formdisplay.php?id=" . urlencode((string)$form_id);
+   if (isset($form_id)) {
+      if ($form_id == 0) {
+         $redirect_url = "/plugins/formcreator/front/wizard.php";
+      } else {
+         $redirect_url = "/plugins/formcreator/front/formdisplay.php?id=" . urlencode((string)$form_id);
+      }
    }
 }
 
