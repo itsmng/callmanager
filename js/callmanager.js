@@ -6,11 +6,13 @@ const SearchForm = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [currentRio, setCurrentRio] = useState('');
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const rioParam = urlParams.get('rio');
     if (rioParam) {
+      setCurrentRio(rioParam);
       handleSearch(rioParam);
     }
   }, []);
@@ -54,9 +56,11 @@ const SearchForm = () => {
         }));
 
         setUsers(normalized);
+        setCurrentRio(rio);
       } else {
         setUsers([]);
-        setError(__('No user found for this RIO', 'callmanager'));
+        setCurrentRio(rio);
+        setError('');
       }
     } catch (err) {
       setError(__('Connection error: ', 'callmanager') + err.message);
@@ -143,8 +147,32 @@ const SearchForm = () => {
             </div>
           </div>
         `}
+
+        ${!loading && users.length === 0 && currentRio && html`
+          <div class="cm-card">
+            <div class="cm-card-header">
+              <h2>${__('No user found for RIO', 'callmanager')} ${currentRio}</h2>
+            </div>
+            <div class="cm-card-body">
+              <p>${__('No user found for this RIO number. Would you like to create a new user?', 'callmanager')}</p>
+              <div class="text-center">
+                <button
+                  class="btn btn-primary btn-lg"
+                  onClick=${() => {
+                    const currentPath = window.location.pathname;
+                    const baseUrl = currentPath.substring(0, currentPath.indexOf('/plugins/'));
+                    const url = `${baseUrl}/front/user.form.php?rio=${encodeURIComponent(currentRio)}`;
+                    window.open(url, '_blank');
+                  }}
+                >
+                  ${__('Create new user with this RIO', 'callmanager')}
+                </button>
+              </div>
+            </div>
+          </div>
+        `}
         
-        ${!loading && users.length === 0 && !error && html`
+        ${!loading && users.length === 0 && !currentRio && html`
           <div class="cm-card">
             <div class="cm-card-body">
               <p>${__('No search results. Please provide a RIO parameter in the URL.', 'callmanager')}</p>
