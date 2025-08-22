@@ -8,7 +8,7 @@
  * Behavior:
  *  - Validates session login
  *  - Checks impersonation right and ability to impersonate the target user
- *  - Starts impersonation and redirects to /front/ticket.form.php
+ *  - Starts impersonation and redirects to /front/ticket.form.php or formcreator form
  *  - On failure, redirects to /front/ticket.form.php without impersonation and shows an INFO message
  */
 
