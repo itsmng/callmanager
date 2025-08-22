@@ -6,13 +6,11 @@ const SearchForm = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [currentRio, setCurrentRio] = useState('');
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const rioParam = urlParams.get('rio');
     if (rioParam) {
-      setCurrentRio(rioParam);
       handleSearch(rioParam);
     }
   }, []);
@@ -52,15 +50,15 @@ const SearchForm = () => {
           lastname: user.lastname || '',
           firstname: user.firstname || '',
           rio: user.rio || rio,
-          email: user.email || ''
+          email: user.email || '',
+          entity: user.entity || '',
+          location: user.location || ''
         }));
 
         setUsers(normalized);
-        setCurrentRio(rio);
       } else {
         setUsers([]);
-        setCurrentRio(rio);
-        setError('');
+        setError(__('No user found for this RIO', 'callmanager'));
       }
     } catch (err) {
       setError(__('Connection error: ', 'callmanager') + err.message);
@@ -81,6 +79,14 @@ const SearchForm = () => {
     window.location.href = ticketUrl;
   };
 
+  const viewUserProfile = (userId) => {
+    const currentPath = window.location.pathname;
+    const baseUrl = currentPath.substring(0, currentPath.indexOf('/plugins/'));
+    
+    const userUrl = `${baseUrl}/front/user.form.php?id=${encodeURIComponent(userId)}`;
+    window.open(userUrl, '_blank');
+  };
+
   return html`
       <div class="callmanager-container">
         <div class="callmanager-header">
@@ -99,24 +105,22 @@ const SearchForm = () => {
                 <table class="tab_cadrehov table table-striped callmanager-results-table">
                   <thead>
                     <tr class="tab_bg_2">
-                      <th>ID</th>
-                      <th>${__('Phone number', 'callmanager')}</th>
                       <th>${__('Last name', 'callmanager')}</th>
                       <th>${__('First name', 'callmanager')}</th>
-                      <th>RIO</th>
                       <th>${__('Email', 'callmanager')}</th>
-                      <th>${__('Action', 'callmanager')}</th>
+                      <th>${__('Entity', 'callmanager')}</th>
+                      <th>${__('Location', 'callmanager')}</th>
+                      <th>${__('Actions', 'callmanager')}</th>
                     </tr>
                   </thead>
                   <tbody>
                     ${users.map(user => html`
                       <tr key=${user.id}>
-                        <td>${user.id}</td>
-                        <td>${user.phone || __('N/A', 'callmanager')}</td>
                         <td>${user.lastname || __('N/A', 'callmanager')}</td>
                         <td>${user.firstname || __('N/A', 'callmanager')}</td>
-                        <td>${user.rio || __('N/A', 'callmanager')}</td>
                         <td>${user.email || __('N/A', 'callmanager')}</td>
+                        <td>${user.entity || __('N/A', 'callmanager')}</td>
+                        <td>${user.location || __('N/A', 'callmanager')}</td>
                         <td style="white-space:nowrap;">
                           <button
                             class="btn btn-secondary btn-sm"
@@ -135,8 +139,16 @@ const SearchForm = () => {
                               window.location.href = url;
                             }}
                             title=${__("Open ticket creation form", 'callmanager')}
+                            style="margin-right:6px;"
                           >
                             ${__("Create ticket for this user", 'callmanager')}
+                          </button>
+                          <button
+                            class="btn btn-info btn-sm"
+                            onClick=${() => viewUserProfile(user.id)}
+                            title=${__("View user profile", 'callmanager')}
+                          >
+                            ${__('View profile', 'callmanager')}
                           </button>
                         </td>
                       </tr>
@@ -147,35 +159,41 @@ const SearchForm = () => {
             </div>
           </div>
         `}
-
-        ${!loading && users.length === 0 && currentRio && html`
-          <div class="cm-card">
-            <div class="cm-card-header">
-              <h2>${__('No user found for RIO', 'callmanager')} ${currentRio}</h2>
-            </div>
-            <div class="cm-card-body">
-              <p>${__('No user found for this RIO number. Would you like to create a new user?', 'callmanager')}</p>
-              <div class="text-center">
-                <button
-                  class="btn btn-primary btn-lg"
-                  onClick=${() => {
-                    const currentPath = window.location.pathname;
-                    const baseUrl = currentPath.substring(0, currentPath.indexOf('/plugins/'));
-                    const url = `${baseUrl}/front/user.form.php?rio=${encodeURIComponent(currentRio)}`;
-                    window.open(url, '_blank');
-                  }}
-                >
-                  ${__('Create new user with this RIO', 'callmanager')}
-                </button>
-              </div>
-            </div>
-          </div>
-        `}
         
-        ${!loading && users.length === 0 && !currentRio && html`
+        ${!loading && users.length === 0 && !error && html`
           <div class="cm-card">
             <div class="cm-card-body">
               <p>${__('No search results. Please provide a RIO parameter in the URL.', 'callmanager')}</p>
+            </div>
+          </div>
+        `}
+
+        ${!loading && users.length === 0 && error && error.includes(__('No user found for this RIO', 'callmanager')) && html`
+          <div class="cm-card">
+            <div class="cm-card-header">
+              <h3>${__('User not found', 'callmanager')}</h3>
+            </div>
+            <div class="cm-card-body">
+              <p>${__('No user found with this RIO number. Would you like to create a new user?', 'callmanager')}</p>
+              <div class="text-center" style="margin-top: 20px;">
+                <button
+                  class="btn btn-success btn-lg"
+                  onClick=${() => {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const rio = urlParams.get('rio');
+                    if (rio) {
+                      const currentPath = window.location.pathname;
+                      const baseUrl = currentPath.substring(0, currentPath.indexOf('/plugins/'));
+                      const createUserUrl = `${baseUrl}/front/user.form.php?rio=${encodeURIComponent(rio)}`;
+                      window.location.href = createUserUrl;
+                    }
+                  }}
+                  title=${__("Create a new user with this RIO number", 'callmanager')}
+                >
+                  <i class="fas fa-user-plus" style="margin-right: 8px;"></i>
+                  ${__('Create new user', 'callmanager')}
+                </button>
+              </div>
             </div>
           </div>
         `}

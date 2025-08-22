@@ -238,13 +238,30 @@ class PluginCallManagerUser extends CommonDBTM {
             // glpi_users: query by the configured field
             $field = $storage; // safe: limited to allowed values
             $result = $DB->request([
-                'SELECT' => ['u.id', 'u.firstname', 'u.realname', 'u.phone', 'e.email', 'e.is_default'],
+                'SELECT' => [
+                    'u.id', 'u.firstname', 'u.realname', 'u.phone', 
+                    'e.email', 'e.is_default',
+                    'ent.name AS entity_name',
+                    'loc.name AS location_name'
+                ],
                 'FROM'   => 'glpi_users AS u',
                 'LEFT JOIN' => [
                     'glpi_useremails AS e' => [
                         'ON' => [
                             'e' => 'users_id',
                             'u' => 'id'
+                        ]
+                    ],
+                    'glpi_entities AS ent' => [
+                        'ON' => [
+                            'ent' => 'id',
+                            'u' => 'entities_id'
+                        ]
+                    ],
+                    'glpi_locations AS loc' => [
+                        'ON' => [
+                            'loc' => 'id',
+                            'u' => 'locations_id'
                         ]
                     ]
                 ],
@@ -261,7 +278,9 @@ class PluginCallManagerUser extends CommonDBTM {
                         'lastname'  => $row['realname'] ?? '',
                         'firstname' => $row['firstname'] ?? '',
                         'rio'       => $rio,
-                        'email'     => ''
+                        'email'     => '',
+                        'entity'    => $row['entity_name'] ?? '',
+                        'location'  => $row['location_name'] ?? ''
                     ];
                 }
                 // Prefer default email when available
@@ -274,9 +293,14 @@ class PluginCallManagerUser extends CommonDBTM {
             return array_values($byId);
         }
 
-        // Custom table: join plugin custom table and fetch email/phone
+        // Custom table: join plugin custom table and fetch email/phone/entity/location
         $result = $DB->request([
-            'SELECT' => ['u.id', 'u.firstname', 'u.realname', 'u.phone', 'pcu.rio_number AS rio', 'e.email', 'e.is_default'],
+            'SELECT' => [
+                'u.id', 'u.firstname', 'u.realname', 'u.phone', 
+                'pcu.rio_number AS rio', 'e.email', 'e.is_default',
+                'ent.name AS entity_name',
+                'loc.name AS location_name'
+            ],
             'FROM' => 'glpi_users AS u',
             'JOIN' => [
                 self::getTable() . ' AS pcu' => [
@@ -291,6 +315,18 @@ class PluginCallManagerUser extends CommonDBTM {
                     'ON' => [
                         'e' => 'users_id',
                         'u' => 'id'
+                    ]
+                ],
+                'glpi_entities AS ent' => [
+                    'ON' => [
+                        'ent' => 'id',
+                        'u' => 'entities_id'
+                    ]
+                ],
+                'glpi_locations AS loc' => [
+                    'ON' => [
+                        'loc' => 'id',
+                        'u' => 'locations_id'
                     ]
                 ]
             ],
@@ -309,7 +345,9 @@ class PluginCallManagerUser extends CommonDBTM {
                     'lastname'  => $row['realname'] ?? '',
                     'firstname' => $row['firstname'] ?? '',
                     'rio'       => $row['rio'] ?? $rio,
-                    'email'     => ''
+                    'email'     => '',
+                    'entity'    => $row['entity_name'] ?? '',
+                    'location'  => $row['location_name'] ?? ''
                 ];
             }
             if (!empty($row['email'])) {

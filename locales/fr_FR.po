@@ -143,3 +143,12 @@ msgstr "Créer un nouvel utilisateur avec ce RIO"
 
 msgid "Call Manager - User Results"
 msgstr "Call Manager - Résultats de l’utilisateur"
+
+msgid "Entity"
+msgstr "Entité"
+
+msgid "Location"
+msgstr "Lieu"
+
+msgid "View profile"
+msgstr "Voir le profil"

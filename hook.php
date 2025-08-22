@@ -72,16 +72,53 @@ function plugin_callmanager_uninstall() {
  * @param CommonDBTM $user
  * @return void
  */
-function plugin_callmanager_user_add(CommonDBTM $user) {
-   // Nothing to do here, the RIO number will be added when the form is saved
+function plugin_callmanager_item_add_User(User $user) {
+   // Check if this user creation came from Call Manager with a RIO number
+   if (isset($_POST['callmanager_rio']) && !empty($_POST['callmanager_rio'])) {
+      $rio = $_POST['callmanager_rio'];
+      $storage = PluginCallManagerConfig::get('rio_storage_method', 'custom_table');
+      
+      if ($storage === 'custom_table') {
+         // Store in plugin dedicated table
+         PluginCallManagerUser::updateRIO([
+            'users_id' => $user->getID(),
+            'rio_number' => $rio
+         ]);
+      } else if ($storage === 'name') {
+         // The name field should already be pre-filled by JavaScript
+         // but let's make sure it's set correctly
+         if (empty($user->fields['name']) || $user->fields['name'] !== $rio) {
+            $user->update([
+               'id' => $user->getID(),
+               'name' => $rio
+            ]);
+         }
+      } else if ($storage === 'registration_number') {
+         // Update the user's registration_number field with RIO
+         $user->update([
+            'id' => $user->getID(),
+            'registration_number' => $rio
+         ]);
+      }
+      
+      // Redirect back to Call Manager search with the new user
+      global $CFG_GLPI;
+      Html::redirect($CFG_GLPI["root_doc"] . "/plugins/callmanager/front/callmanager.php?rio=" . urlencode($rio));
+   }
+}
+
+/**
+ * Alternative hook using the generic item_add hook
+ */
+function plugin_callmanager_item_add($item) {
+   if ($item instanceof User) {
+      plugin_callmanager_item_add_User($item);
+   }
 }
 
 /**
  * Hook function called after a user is updated
- *
- * @param CommonDBTM $user
- * @return void
  */
-function plugin_callmanager_user_update(CommonDBTM $user) {
-   // Nothing to do here, the RIO number will be added when the form is saved
+function plugin_callmanager_item_update_User(User $user) {
+   // Nothing specific to do here for updates
 }
