@@ -80,12 +80,16 @@ function plugin_callmanager_postinit()
 {
     global $PLUGIN_HOOKS;
 
+    $PLUGIN_HOOKS['pre_item_add']['callmanager'] = [
+        User::class => 'plugin_callmanager_pre_item_add_user'
+    ];
+
     $PLUGIN_HOOKS['item_add']['callmanager'] = [
-        'User' => 'plugin_callmanager_item_add_User'
+        User::class => 'plugin_callmanager_item_add_User'
     ];
 
     $PLUGIN_HOOKS['item_update']['callmanager'] = [
-        'User' => 'plugin_callmanager_item_update_User'
+        User::class => 'plugin_callmanager_item_update_User'
     ];
 }
 

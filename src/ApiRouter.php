@@ -5,6 +5,7 @@ namespace GlpiPlugin\CallManager;
 use FastRoute;
 use FastRoute\Dispatcher;
 use GlpiPlugin\CallManager\Handlers\GetUserByRio;
+use GlpiPlugin\CallManager\PluginCallManagerConfig;
 use Session;
 
 if (!defined('GLPI_ROOT')) {
@@ -25,6 +26,18 @@ class ApiRouter
             $r->addRoute('GET', '/users/{rio}', function ($rio) {
                 $handler = new GetUserByRio();
                 echo json_encode($handler->handle($rio));
+            });
+            
+            $r->addRoute('GET', '/config/{key}', function ($key) {
+                $allowedKeys = ['rio_storage_method'];
+                if (!in_array($key, $allowedKeys)) {
+                    http_response_code(400);
+                    echo json_encode(['error' => 'Invalid configuration key']);
+                    return;
+                }
+                
+                $value = PluginCallManagerConfig::get($key, 'custom_table');
+                echo json_encode(['key' => $key, 'value' => $value]);
             });
         });
     }
