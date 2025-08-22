@@ -140,3 +140,6 @@ msgstr "Aucun utilisateur trouvé pour ce numéro RIO. Voulez-vous créer un nou
 
 msgid "Create new user with this RIO"
 msgstr "Créer un nouvel utilisateur avec ce RIO"
+
+msgid "Call Manager - User Results"
+msgstr "Call Manager - Résultats de l’utilisateur"
