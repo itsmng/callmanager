@@ -131,3 +131,24 @@ msgstr "Formulaire Formcreator"
 
 msgid "Formcreator plugin not available"
 msgstr "Plugin Formcreator non disponible"
+
+msgid "No user found for RIO"
+msgstr "Aucun utilisateur trouvé pour le RIO"
+
+msgid "No user found for this RIO number. Would you like to create a new user?"
+msgstr "Aucun utilisateur trouvé pour ce numéro RIO. Voulez-vous créer un nouvel utilisateur ?"
+
+msgid "Create new user with this RIO"
+msgstr "Créer un nouvel utilisateur avec ce RIO"
+
+msgid "Call Manager - User Results"
+msgstr "Call Manager - Résultats de l’utilisateur"
+
+msgid "Entity"
+msgstr "Entité"
+
+msgid "Location"
+msgstr "Lieu"
+
+msgid "View profile"
+msgstr "Voir le profil"

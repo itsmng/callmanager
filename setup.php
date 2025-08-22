@@ -52,6 +52,7 @@ function plugin_init_callmanager()
         "/node_modules/preact/hooks/dist/hooks.umd.js",
         "/node_modules/htm/dist/htm.umd.js",
         "/js/inject-ticketlist-action.js",
+        "/js/user-creation-helper.js",
     ];
 
     // Register profile rights
@@ -80,11 +81,11 @@ function plugin_callmanager_postinit()
     global $PLUGIN_HOOKS;
 
     $PLUGIN_HOOKS['item_add']['callmanager'] = [
-        'User' => 'plugin_callmanager_user_add'
+        'User' => 'plugin_callmanager_item_add_User'
     ];
 
     $PLUGIN_HOOKS['item_update']['callmanager'] = [
-        'User' => 'plugin_callmanager_user_update'
+        'User' => 'plugin_callmanager_item_update_User'
     ];
 }
 

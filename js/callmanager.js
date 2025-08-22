@@ -3,12 +3,6 @@ const { useState, useEffect } = preactHooks;
 const html = htm.bind(h);
 
 const SearchForm = () => {
-  const [formData, setFormData] = useState({
-    rio: '',
-    firstname: '',
-    lastname: '',
-    phone: ''
-  });
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -17,17 +11,12 @@ const SearchForm = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const rioParam = urlParams.get('rio');
     if (rioParam) {
-      setFormData(prev => ({ ...prev, rio: rioParam }));
-      handleSearch({ ...formData, rio: rioParam });
+      handleSearch(rioParam);
     }
   }, []);
 
-  const handleInputChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-  };
-
-  const handleSearch = async (searchData = formData) => {
-    if (!searchData.rio.trim()) {
+  const handleSearch = async (rio) => {
+    if (!rio.trim()) {
       setError(__('RIO number is required', 'callmanager'));
       return;
     }
@@ -39,7 +28,7 @@ const SearchForm = () => {
       const currentPath = window.location.pathname;
       const baseUrl = currentPath.substring(0, currentPath.indexOf('/plugins/'));
 
-      const apiUrl = `${baseUrl}/plugins/callmanager/api.php/users/${searchData.rio}`;
+      const apiUrl = `${baseUrl}/plugins/callmanager/api.php/users/${rio}`;
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: {
@@ -60,8 +49,10 @@ const SearchForm = () => {
           phone: user.phone || '',
           lastname: user.lastname || '',
           firstname: user.firstname || '',
-          rio: user.rio || searchData.rio,
-          email: user.email || ''
+          rio: user.rio || rio,
+          email: user.email || '',
+          entity: user.entity || '',
+          location: user.location || ''
         }));
 
         setUsers(normalized);
@@ -77,68 +68,29 @@ const SearchForm = () => {
     }
   };
 
-  const viewUserTickets = (userId) => {
+  const viewUserTickets = (userId, rio) => {
     const currentPath = window.location.pathname;
     const baseUrl = currentPath.substring(0, currentPath.indexOf('/plugins/'));
 
     const baseQuery = `contains[0]=${userId}&criteria[0][field]=4&criteria[0][searchtype]=equals&criteria[0][value]=${userId}&itemtype=Ticket&start=0`;
-    const ctx = `callmanager=1&userid=${encodeURIComponent(userId)}${formData?.rio ? `&rio=${encodeURIComponent(formData.rio)}` : ''}`;
+    const ctx = `callmanager=1&userid=${encodeURIComponent(userId)}${rio ? `&rio=${encodeURIComponent(rio)}` : ''}`;
     const ticketUrl = `${baseUrl}/front/ticket.php?${baseQuery}&${ctx}`;
 
     window.location.href = ticketUrl;
   };
 
+  const viewUserProfile = (userId) => {
+    const currentPath = window.location.pathname;
+    const baseUrl = currentPath.substring(0, currentPath.indexOf('/plugins/'));
+    
+    const userUrl = `${baseUrl}/front/user.form.php?id=${encodeURIComponent(userId)}`;
+    window.open(userUrl, '_blank');
+  };
+
   return html`
       <div class="callmanager-container">
         <div class="callmanager-header">
-          <h1>${__('Call Manager - User search', 'callmanager')}</h1>
-          <p>${__('Search a user by RIO number', 'callmanager')}</p>
-        </div>
-
-        <div class="search-form cm-card">
-          <div class="cm-card-header">
-            <h2>${__('Search criteria', 'callmanager')}</h2>
-          </div>
-          <div class="cm-card-body">
-            <form onSubmit=${(e) => { e.preventDefault(); handleSearch(); }}>
-              <div class="cm-form-group">
-                <label for="rio">${__('RIO number *', 'callmanager')}</label>
-                <input
-                  type="text"
-                  id="rio"
-                  class="form-control"
-                  placeholder=${__('Caller RIO number', 'callmanager')}
-                  value=${formData.rio}
-                  onInput=${(e) => handleInputChange('rio', e.target.value)}
-                  required
-                  maxLength=${20}
-                />
-              </div>
-
-              <div class="form-actions">
-                <button
-                  type="submit"
-                  class="btn btn-primary"
-                  disabled=${loading}
-                >
-                  ${loading ? __('Searching…', 'callmanager') : __('Search', 'callmanager')}
-                </button>
-
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  style="margin-left: 10px;"
-                  onClick=${() => {
-                    setFormData({ rio: '', firstname: '', lastname: '', phone: '' });
-                    setUsers([]);
-                    setError('');
-                  }}
-                >
-                  ${__('Clear', 'callmanager')}
-                </button>
-              </div>
-            </form>
-          </div>
+          <h1>${__('Call Manager - User Results', 'callmanager')}</h1>
         </div>
 
         ${error && html`<div class="alert alert-danger">${error}</div>`}
@@ -150,31 +102,29 @@ const SearchForm = () => {
             </div>
             <div class="cm-card-body">
               <div class="table-responsive">
-                <table class="tab_cadrehov table table-striped">
+                <table class="tab_cadrehov table table-striped callmanager-results-table">
                   <thead>
                     <tr class="tab_bg_2">
-                      <th>ID</th>
-                      <th>${__('Phone number', 'callmanager')}</th>
                       <th>${__('Last name', 'callmanager')}</th>
                       <th>${__('First name', 'callmanager')}</th>
-                      <th>RIO</th>
                       <th>${__('Email', 'callmanager')}</th>
-                      <th>${__('Action', 'callmanager')}</th>
+                      <th>${__('Entity', 'callmanager')}</th>
+                      <th>${__('Location', 'callmanager')}</th>
+                      <th>${__('Actions', 'callmanager')}</th>
                     </tr>
                   </thead>
                   <tbody>
                     ${users.map(user => html`
                       <tr key=${user.id}>
-                        <td>${user.id}</td>
-                        <td>${user.phone || __('N/A', 'callmanager')}</td>
                         <td>${user.lastname || __('N/A', 'callmanager')}</td>
                         <td>${user.firstname || __('N/A', 'callmanager')}</td>
-                        <td>${user.rio || __('N/A', 'callmanager')}</td>
                         <td>${user.email || __('N/A', 'callmanager')}</td>
+                        <td>${user.entity || __('N/A', 'callmanager')}</td>
+                        <td>${user.location || __('N/A', 'callmanager')}</td>
                         <td style="white-space:nowrap;">
                           <button
                             class="btn btn-secondary btn-sm"
-                            onClick=${() => viewUserTickets(user.id)}
+                            onClick=${() => viewUserTickets(user.id, user.rio)}
                             title=${__("View this user's tickets", 'callmanager')}
                             style="margin-right:6px;"
                           >
@@ -189,14 +139,60 @@ const SearchForm = () => {
                               window.location.href = url;
                             }}
                             title=${__("Open ticket creation form", 'callmanager')}
+                            style="margin-right:6px;"
                           >
                             ${__("Create ticket for this user", 'callmanager')}
+                          </button>
+                          <button
+                            class="btn btn-info btn-sm"
+                            onClick=${() => viewUserProfile(user.id)}
+                            title=${__("View user profile", 'callmanager')}
+                          >
+                            ${__('View profile', 'callmanager')}
                           </button>
                         </td>
                       </tr>
                     `)}
                   </tbody>
                 </table>
+              </div>
+            </div>
+          </div>
+        `}
+        
+        ${!loading && users.length === 0 && !error && html`
+          <div class="cm-card">
+            <div class="cm-card-body">
+              <p>${__('No search results. Please provide a RIO parameter in the URL.', 'callmanager')}</p>
+            </div>
+          </div>
+        `}
+
+        ${!loading && users.length === 0 && error && error.includes(__('No user found for this RIO', 'callmanager')) && html`
+          <div class="cm-card">
+            <div class="cm-card-header">
+              <h3>${__('User not found', 'callmanager')}</h3>
+            </div>
+            <div class="cm-card-body">
+              <p>${__('No user found with this RIO number. Would you like to create a new user?', 'callmanager')}</p>
+              <div class="text-center" style="margin-top: 20px;">
+                <button
+                  class="btn btn-success btn-lg"
+                  onClick=${() => {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const rio = urlParams.get('rio');
+                    if (rio) {
+                      const currentPath = window.location.pathname;
+                      const baseUrl = currentPath.substring(0, currentPath.indexOf('/plugins/'));
+                      const createUserUrl = `${baseUrl}/front/user.form.php?rio=${encodeURIComponent(rio)}`;
+                      window.location.href = createUserUrl;
+                    }
+                  }}
+                  title=${__("Create a new user with this RIO number", 'callmanager')}
+                >
+                  <i class="fas fa-user-plus" style="margin-right: 8px;"></i>
+                  ${__('Create new user', 'callmanager')}
+                </button>
               </div>
             </div>
           </div>
