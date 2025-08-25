@@ -152,3 +152,9 @@ msgstr "Lieu"
 
 msgid "View profile"
 msgstr "Voir le profil"
+
+msgid "User not found"
+msgstr "Utilisateur non trouvé"
+
+msgid "No search results. Please provide a RIO parameter in the URL."
+msgstr "Aucun résultat trouvé. Veuillez fournir un numéro RIO dans l'URL."

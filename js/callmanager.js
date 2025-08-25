@@ -174,7 +174,7 @@ const SearchForm = () => {
               <h3>${__('User not found', 'callmanager')}</h3>
             </div>
             <div class="cm-card-body">
-              <p>${__('No user found with this RIO number. Would you like to create a new user?', 'callmanager')}</p>
+              <p>${__('No user found for this RIO number. Would you like to create a new user?', 'callmanager')}</p>
               <div class="text-center" style="margin-top: 20px;">
                 <button
                   class="btn btn-success btn-lg"
@@ -191,7 +191,7 @@ const SearchForm = () => {
                   title=${__("Create a new user with this RIO number", 'callmanager')}
                 >
                   <i class="fas fa-user-plus" style="margin-right: 8px;"></i>
-                  ${__('Create new user', 'callmanager')}
+                  ${__('Create new user with this RIO', 'callmanager')}
                 </button>
               </div>
             </div>
