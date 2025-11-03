@@ -32,7 +32,7 @@ jobs:
         run: composer install --no-dev
 
       - name: Run yarn install
-        run: yarn install
+        run: yarn install --prod
 
       - name: Build project
         run: |
@@ -53,4 +53,5 @@ jobs:
           body: "New release is available"
           name: ${{ github.ref_name }}
           draft: true
+
           generate_release_notes: true
