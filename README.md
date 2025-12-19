@@ -21,26 +21,6 @@ The Call Manager plugin for ITSM-NG provides telephony integration capabilities,
 - PHP >= 7.4
 - Composer for dependency management
 
-## Installation
-
-1. Copy the plugin folder to the `plugins` directory of your ITSM-NG installation
-2. Navigate to the plugin directory:
-   ```bash
-   cd plugins/callmanager
-   ```
-3. Install PHP dependencies:
-   ```bash
-   composer install --no-dev
-   ```
-4. Install JavaScript dependencies:
-   ```bash
-   yarn install --prod
-   ```
-5. Activate the plugin through the ITSM-NG interface:
-   - Go to `Setup > Plugins`
-   - Find "Call Manager Plugin" in the list
-   - Click "Install" then "Activate"
-
 ## Configuration
 
 1. After activation, go to `Setup > Plugins > Call Manager Plugin` to configure plugin settings
